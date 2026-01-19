@@ -27,7 +27,7 @@ export function TodoCard({ data }: TodoCardProps) {
   return (
     <Link href={`/items/${data.id}`}>
       <div
-        className={`flex px-2 gap-4 items-center h-[50px] rounded-[25px] 
+        className={`flex px-2 gap-4 items-center h-[50px] rounded-full 
     border-2 border-slate-900 ${data.isCompleted ? "bg-violet-100" : "bg-white"}`}
       >
         <button
