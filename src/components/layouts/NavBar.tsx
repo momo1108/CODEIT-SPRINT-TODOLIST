@@ -5,7 +5,7 @@ import Link from "next/link";
 export function NavBar() {
   return (
     <nav className="bg-white border-b border-slate-200">
-      <Container className="flex items-center justify-between h-16">
+      <Container className="flex px-4 md:px-6 items-center justify-between h-16">
         <Link href="/">
           <Image
             className="hidden md:inline"
