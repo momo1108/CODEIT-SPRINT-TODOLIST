@@ -1,5 +1,6 @@
 export function PlusIcon({
-  className = "w-4 h-4 stroke-slate-900",
+  width = 16,
+  height = 16,
   isEmpty = true,
   ...props
 }: React.SVGProps<SVGSVGElement> & { className?: string; isEmpty?: boolean }) {
@@ -7,10 +8,12 @@ export function PlusIcon({
     <>
       {isEmpty ? (
         <svg
+          width={width}
+          height={height}
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className={className}
+          stroke="white"
           {...props}
         >
           <path d="M2 8L14 8" strokeWidth="2" strokeLinecap="round" />
@@ -18,10 +21,12 @@ export function PlusIcon({
         </svg>
       ) : (
         <svg
+          width={width}
+          height={height}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className={className}
+          stroke="#0F172A"
           {...props}
         >
           <path d="M3 12L21 12" strokeWidth="3" strokeLinecap="round" />
