@@ -9,10 +9,20 @@ async function apiCall<T>(
 ): Promise<ApiResponse<T>> {
   try {
     const response = await fetch(url, options);
-    // console.dir(response);
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status}`);
+      // 에러 응답 body 파싱
+      let errorMessage = `API Error: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch {
+        // JSON 파싱 실패하면 statusText 사용
+        errorMessage = `${response.status} ${response.statusText}`;
+      }
+      
+      console.error(`[${url}] ${errorMessage}`);
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
