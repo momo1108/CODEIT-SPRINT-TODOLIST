@@ -1,4 +1,4 @@
-export function PlusIcon({
+export function CheckboxIcon({
   className = "w-4 h-4",
   isChecked = true,
   ...props
