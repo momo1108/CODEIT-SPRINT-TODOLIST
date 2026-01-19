@@ -74,18 +74,18 @@ export default function ItemContainerContent({
       return;
     }
 
-    // FormData 객체 생성 및 데이터 추가
-    const submitFormData = new FormData();
-    submitFormData.append("name", formData.name);
-    submitFormData.append("memo", formData.memo);
-    submitFormData.append("isCompleted", String(formData.isCompleted));
-    submitFormData.append("imageUrl", formData.imageUrl || "");
-
-    if (fileRef.current) {
-      submitFormData.append("file", fileRef.current); // 새 이미지 파일 첨부
-    }
-
     if (buttonName === "update") {
+      // FormData 객체 생성 및 데이터 추가
+      const submitFormData = new FormData();
+      submitFormData.append("name", formData.name);
+      submitFormData.append("memo", formData.memo);
+      submitFormData.append("isCompleted", String(formData.isCompleted));
+      submitFormData.append("imageUrl", formData.imageUrl || "");
+
+      if (fileRef.current) {
+        submitFormData.append("file", fileRef.current); // 새 이미지 파일 첨부
+      }
+
       // 수정 완료 액션
       const result = await updateTodo(data.id, submitFormData);
       if (result && result.error) {
