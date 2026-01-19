@@ -106,19 +106,15 @@ body {
            max-w-[375px] md:max-w-[744px] lg:max-w-[1200px];
   }
 
-  /* 그리드 컨테이너 */
-  .grid-container {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-12 lg:gap-6;
+  /* 스크롤바 감추기용 클래스 */
+  .hide-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
   }
 
-  /* 그리드 아이템 (각 카드) */
-  .grid-item {
-    @apply flex flex-col gap-4;
-  }
-
-  /* 그리드 아이템 내부 본문 */
-  .grid-item-content {
-    @apply flex flex-col gap-4;
+  .hide-scroll::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -140,12 +136,12 @@ body {
   }
 
   /* Button Variants */
-  .btn-add-empty,
+  .btn-add-not-empty,
   .btn-modify-empty {
     @apply bg-slate-200 text-slate-900;
   }
 
-  .btn-add-not-empty {
+  .btn-add-empty {
     @apply bg-violet-600 text-white;
   }
 
