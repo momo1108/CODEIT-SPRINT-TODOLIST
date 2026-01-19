@@ -1,22 +1,24 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { apiCall } from "./api";
 import { TodoItem, UpdateTodoItemDto } from "./types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID;
-const url = `${BASE_URL}/${TENANT_ID}/items`;
+const ITEMS_URL = `${BASE_URL}/${TENANT_ID}/items`;
+const IMAGE_UPLOAD_URL = `${BASE_URL}/${TENANT_ID}/images/upload`;
 
 export async function fetchTodos() {
-  const result = await apiCall<TodoItem[]>(url, {
+  const result = await apiCall<TodoItem[]>(ITEMS_URL, {
     method: "GET",
   });
   return result;
 }
 
 export async function fetchTodo(id: number) {
-  const result = await apiCall<TodoItem[]>(`${url}/${id}`, {
+  const result = await apiCall<TodoItem>(`${ITEMS_URL}/${id}`, {
     method: "GET",
   });
   return result;
@@ -26,7 +28,7 @@ export async function createTodo(formData: FormData) {
   const name = (formData.get("name") as string).trim();
   if (!name) return;
 
-  const { error } = await apiCall<TodoItem[]>(url, {
+  const { error } = await apiCall<TodoItem[]>(ITEMS_URL, {
     method: "POST",
     body: JSON.stringify({ name }),
     headers: {
@@ -100,7 +102,9 @@ export async function updateTodo(id: number, formData: FormData) {
     isCompleted,
   };
 
-  const result = await apiCall<TodoItem[]>(`${url}/${id}`, {
+  console.log(formData, updateTodoItemDto);
+
+  await apiCall<TodoItem[]>(`${ITEMS_URL}/${id}`, {
     method: "PATCH",
     body: JSON.stringify(updateTodoItemDto),
     headers: {
@@ -108,31 +112,28 @@ export async function updateTodo(id: number, formData: FormData) {
     },
   });
 
-  revalidatePath("/"); // 데이터 새로고침
-  return result;
+  revalidatePath("/");
+  redirect("/");
 }
 
 export async function deleteTodo(id: number) {
-  const result = await fetch(`${url}/${id}`, {
+  await fetch(`${ITEMS_URL}/${id}`, {
     method: "DELETE",
   });
 
-  revalidatePath("/"); // 데이터 새로고침
-  return result;
+  revalidatePath("/");
+  redirect("/");
 }
 
 // 이미지 업로드 헬퍼
 async function uploadImage(file: File): Promise<string | null> {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("image", file);
 
-  const { data, error } = await apiCall<{ url: string }>(
-    `${BASE_URL}/${TENANT_ID}/images/upload`,
-    {
-      method: "POST",
-      body: formData,
-    },
-  );
+  const { data, error } = await apiCall<{ url: string }>(IMAGE_UPLOAD_URL, {
+    method: "POST",
+    body: formData,
+  });
 
   if (error || !data) {
     console.error("이미지 업로드 실패:", error);

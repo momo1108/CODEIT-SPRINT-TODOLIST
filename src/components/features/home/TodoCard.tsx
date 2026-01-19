@@ -2,7 +2,7 @@
 
 import { TodoItem } from "@/app/types";
 import { CheckboxIcon } from "../../icons/CheckboxIcon";
-import { toggleTodoComplete } from "@/app/actions";
+import { fetchTodo, toggleTodoComplete } from "@/app/actions";
 import { useRef, useState } from "react";
 import Link from "next/link";
 
@@ -20,7 +20,14 @@ export function TodoCard({ data }: TodoCardProps) {
     } // 중복 클릭 방지
 
     isToggling.current = true;
-    await toggleTodoComplete(data.id, data);
+    const todo = await fetchTodo(data.id); // 전체 데이터 가져오기
+    // 데이터가 없으면 에러 처리
+    if (!todo.data) {
+      alert("Todo 토글에 필요한 데이터를 불러오는 데 실패했습니다.");
+      isToggling.current = false;
+      return;
+    }
+    await toggleTodoComplete(data.id, todo.data);
     isToggling.current = false;
   };
 
