@@ -57,6 +57,7 @@
   --color-slate-300: #cbd5e1;
   --color-slate-200: #e2e8f0;
   --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
   --color-violet-600: #7c3aed;
   --color-violet-100: #ede9fe;
   --color-rose-500: #f43f5e;
@@ -75,15 +76,6 @@
   --container-max-sm: 375px;
   --container-max-md: 744px;
   --container-max-lg: 1200px;
-
-  /* 그리드 갭 */
-  --grid-gap-sm: 48px;
-  --grid-gap-md: 48px;
-  --grid-gap-lg: 24px;
-
-  /* 그리드 내부 갭 */
-  --grid-header-gap: 16px;
-  --grid-content-gap: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -102,8 +94,7 @@ body {
 @layer utilities {
   /* 공유 컨테이너: 반응형 너비 + 수평 패딩 */
   .container-responsive {
-    @apply mx-auto flex-1 px-4 md:px-6
-           max-w-[375px] md:max-w-[744px] lg:max-w-[1200px];
+    @apply mx-auto flex-1 max-w-[375px] md:max-w-[744px] lg:max-w-[1200px];
   }
 
   /* 스크롤바 감추기용 클래스 */
@@ -126,8 +117,13 @@ body {
   }
 
   /* Button Styles By Shape */
-  .btn-rect {
-    @apply w-[56px] h-[52.5px] md:w-[162px] rounded-[24px] 
+  .btn-rect-responsive {
+    @apply w-[56px] h-[52.5px] md:w-[162px] rounded-[24px] shrink-0 md:shrink
+    border-2 border-slate-900 shadow-base;
+  }
+
+  .btn-rect-not-responsive {
+    @apply w-[162px] h-[52.5px] rounded-[24px] 
     border-2 border-slate-900 shadow-base;
   }
 
